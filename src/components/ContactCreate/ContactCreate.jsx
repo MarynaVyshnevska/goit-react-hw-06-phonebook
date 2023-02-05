@@ -1,10 +1,13 @@
-import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
 import { Formik, ErrorMessage } from 'formik';
+import * as yup from 'yup';
+
 import { TfiCommentsSmiley } from "react-icons/tfi";
 
+import { addContactAction } from 'redux/contact/contact.slice';
 import { FormPhone, InputPhone } from './ContactCreate.styled';
-import * as yup from 'yup';
 
 const initialValues ={
     name: '',
@@ -17,12 +20,17 @@ const schemaContact = yup.object().shape({
 })
 
 
-export default function ContactCreate ({onSubmit}) {
+const ContactCreate = () => {
+
+    const dispatch = useDispatch();
         
     const handleSubmit = (values, {resetForm}) => {
         // console.log(values);
         const formContactData = values;
-        onSubmit({id: nanoid(), ...formContactData});
+        dispatch(addContactAction({
+            id: nanoid(),
+            ...formContactData
+        }));
         
         resetForm();
     }
@@ -67,8 +75,7 @@ export default function ContactCreate ({onSubmit}) {
         )
     };
 
-
-
+export default ContactCreate;
 ContactCreate.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
