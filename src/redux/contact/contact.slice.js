@@ -9,16 +9,22 @@ const contactSlice = createSlice({
     initialState: contactsInitState,
     reducers: {
         addContactAction: (state, { payload }) => {
-            const newContact = state.contacts.find(contact => (
+            const newContactName = state.contacts.find(contact => (
                 contact.name.toLowerCase() === payload.name.toLowerCase()
-                ||
+            ));
+            if (newContactName) {
+                return Notiflix.Notify.warning(`${newContactName.name} is already in your phonebook `)
+            }
+            const newContactNumber = state.contacts.find(contact => (
                 contact.number === payload.number
             ));
-            if (newContact) {
-                return Notiflix.Notify.warning(`${newContact.name} is already in your phonebook `)
-            } else {
-                state.contacts.push(payload);
+            if (newContactNumber) {
+                return Notiflix.Notify.warning(`${newContactNumber.number} is already in your phonebook `)
             }
+            
+            state.contacts.push(payload);
+            
+            
         },
         contactsFilterAction: (state, { payload }) => {
             state.filter = payload;
