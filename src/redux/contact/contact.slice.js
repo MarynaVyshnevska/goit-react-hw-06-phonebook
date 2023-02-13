@@ -13,13 +13,16 @@ const contactSlice = createSlice({
                 contact.name.toLowerCase() === payload.name.toLowerCase()
             ));
             if (newContactName) {
-                return Notiflix.Notify.warning(`${newContactName.name} is already in your phonebook `)
+                return Notiflix.Notify.warning(`Contact with name "${newContactName.name}" is already in your phonebook `)
             }
             const newContactNumber = state.contacts.find(contact => (
                 contact.number === payload.number
             ));
+            // if (newContactName || newContactNumber) {
+            //     return Notiflix.Notify.warning(`${newContactName.name} ${newContactNumber.number} is already in your phonebook `)
+            // } // not working
             if (newContactNumber) {
-                return Notiflix.Notify.warning(`${newContactNumber.number} is already in your phonebook `)
+                return Notiflix.Notify.warning(`Contact with phonenumber "${newContactNumber.number}" is already in your phonebook `)
             }
             
             state.contacts.push(payload);
